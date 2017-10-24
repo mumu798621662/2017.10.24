@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	<script src='ajax.js'></script>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	ul.tab{
+		width: 900px;
+		height: 40px;
+		background: paleturquoise;
+		margin: 0 auto;
+	}
+	ul.tab>li{
+		width: 33.3333333%;
+		height: 100%;
+		float: left;
+		border: 1px solid #000;
+		color: #fff;
+		font-size: 20px;
+		line-height: 40px;
+		text-align: center;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	div.content{
+		width: 900px;
+		height: auto;
+		margin: 0 auto;
+		background: pink;
+	}
+	div.content>ul{
+		width: 100%;
+		height: auto;
+		
+		display: none;
+	}
+	div.content>ul>li{
+		width: 100%;
+		height: 40px;
+		color: #fff;
+		font-size: 16px;
+		border-bottom: 1px solid #fff;
+		line-height: 40px;
+		
+	}
+	div.content>.active{
+		display: block;
+	}
+</style>
+<body>
+	<ul class="tab">
+		<li class="web">web<>
+		<li class="pe">pe<>
+		<li class="news">news<>
+	</ul>
+	<div class="content">
+		<ul>
+			<li>1<>
+		</ul>
+		<ul ></ul>
+		<ul></ul>
+	</div>
+</body>
+<script>
+
+	let lis=document.querySelectorAll('.tab>li');
+	let uls=document.querySelectorAll('.content>ul');
+	let flag={};
+//	console.log(uls)
+	lis.forEach((element,index)=>{
+		element.onclick=function(){
+			for(let i=0;i<uls.length;i++){
+				uls[i].classList.remove('active');
+			}
+			uls[index].classList.add('active');
+			
+			let type=this.className;
+//			console.log(type);
+			if(!flag[type]){
+				flag[type]=true;
+//			console.log(uls[index]);
+			fn(uls[index],type);
+			}
+		}
+	})
+	function fn(obj,type){
+//	let xml=new XMLHttpRequest();
+//	xml.open('post','data.php',true);
+//	xml.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+//	xml.send('name='+type);
+//	xml.responseType='json';
+//	xml.onreadystatechange=function(){
+//	if(xml.readyState==4){
+//          if(xml.status==200){
+//          	console.log(xml.response)
+//      	for(let i=0;i<xml.response.length;i++){
+//      		obj.innerHTML+=`<li>${xml.response[i].title}-----${xml.response[i].content}</li>`
+//      	}
+////	            let data=JSON.parse(xml.response);
+////	            console.log(data);
+////          		data.forEach(element=>{
+////             	obj.innerHTML+=`<li>${element.title}----${element.content}</li>`
+////             })
+//        	
+//      }
+//      }
+// }
+  ajax({
+  	method:'post',
+  	url:'data.php',
+  	asynch:'true',
+	data:{name:type},
+  	datatype:'json',
+  	success:function(data){
+
+        for (let i=0;i<data.length;i++){
+
+            obj.innerHTML+=`<li>${data[i].title}----${data[i].content}</li>`
+  		}
+  	}
+  	
+  })
+   }
+   
+</script>
+
+<ml>
